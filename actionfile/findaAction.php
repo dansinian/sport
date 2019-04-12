@@ -4,19 +4,13 @@
 	// 管理人员，普通人员，专业人数
     header("Access-Control-Allow-Origin:*");
     $name=$_GET['name'];
-	$result=mysql_connect("localhost","root","");
-	if(!$result){
-		die("未能打开数据库");
-	}
-	$db=mysql_select_db("projectdata");
-	if(!$db){
-		die("数据空间没有打开");
-	}
+	// 打开数据库
+    $coon=new mysqli("localhost","root","","projectdata");
+
 	$sql="select * from actionlist where actionName='$name'";
-	mysql_query("set names utf8");
-	$res=mysql_query($sql);
+	$res=$coon->query($sql);
 	if($res){
-		$obj=json_encode(mysql_fetch_assoc($res));
+		$obj=json_encode($res->fetch_assoc());
 		echo $obj; 
 	}else{
 		echo "跳转出现错误";

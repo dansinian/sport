@@ -6,23 +6,18 @@
     $defineName=$_GET['actionName'];//活动的名称
     $definePerson=$_GET['definePerson'];//活动的人员
 	$result=mysql_connect("localhost","root","");
-	if(!$result){
-		die("未能打开数据库");
-	}
-	$db=mysql_select_db("projectdata");
-	if(!$db){
-		die("数据空间没有打开");
-	}
+	// 打开数据库
+    $coon=new mysqli("localhost","root","","projectdata");
+    //数据库的业务操作
 	$sql="select * from defineaction where defineName='$defineName'";
-	mysql_query("set names utf8");
-	$res=mysql_query($sql);
+	$res= $coon->query($sql);
 	if($res){//有此活动
-		$obj=$mysql_fetch_assoc($res));
+		$obj=$res->fetch_assoc($res));
 		// 取到人名的数组
 		$arr=json_decode(($obj.defineArr)
 		$json=json_encode((array_push($arr, $definePerson));
 		$sql1="update defineaction set defineArr=$json where defineName='$defineName'";
-		$res1=mysql_query($sql);
+		$res1= $coon->query($sql);
 		if($res1){
 			echo "参加活动已经报名"
 		}else{

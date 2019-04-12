@@ -4,26 +4,19 @@
 	$result1="还没有任何评论";
 	$result2="未能查找到结果";
 	$review_eassy_id=$_POST['review_eassy_id'];
-// 数据库的连接
-	 $result=mysql_connect("localhost","root","");
-	if(!$result){
-		die("打开数据库失败");
-	}
-	$db=mysql_select_db("projectdata");
-	if(!$db){
-		die("打开数据库的空间失败");
-	}
-	// 进行的操作
+	// 打开数据库
+    $coon=new mysqli("localhost","root","","projectdata");
+    //数据库的业务操作
 	$sql="select * from reviewList where review_eassy_id='$review_eassy_id'";
-	$res1=mysql_query($sql);
+	$res1=$coon->query($sql);
 	if($res1){
-		if(mysql_num_rows($res1)){
+		if($res1->num_rows){
 			$arr=[];
-			for($i=0;$i<mysql_num_rows($res1);$i++){
-				$obj=mysql_fetch_assoc($res1);
+			for($i=0;$i<$res1->num_rows;$i++){
+				$obj=$res1->fetch_assoc();
 				array_push($arr,$obj);
 			}
-			if($i==mysql_num_rows($res1)){
+			if($i==$res1->num_rows){
 				$json=json_encode($arr);
 				echo $json;
 			}

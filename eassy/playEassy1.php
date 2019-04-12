@@ -1,22 +1,15 @@
 <?php
 // 添加用户
     header("Access-Control-Allow-Origin:*");
-  	$result=mysql_connect("localhost","root","");
-	if(!$result){
-		die("打开数据库失败");
-	}
-	$db=mysql_select_db("projectdata");
-	if(!$db){
-		die("打开数据库的空间失败");
-	}
+ 	$coon=new mysqli("localhost","root","","projectdata");
 		// 建立新的完整数据
 	$sql="select * from eassy";
-	$findSql=mysql_query($sql);
+	$findSql=$coon->query($sql);
 	if($findSql){
-		if(mysql_num_rows($findSql)){
+		if($findSql->num_rows){
 			$arr=[];
-			for($i=1;$i<=mysql_num_rows($findSql);$i++){
-				array_push($arr,mysql_fetch_assoc($findSql));
+			for($i=1;$i<=$findSql->num_rows;$i++){
+				array_push($arr,$findSql->fetch_assoc());
 			}
 			print_r(JSON_encode($arr));	
 		}

@@ -14,17 +14,10 @@
 
 
    	// 打开数据库
-   	$result=mysql_connect("localhost","root","");
-	if(!$result){
-		die("打开数据库失败");
-	}
-	$db=mysql_select_db("projectdata");
-	if(!$db){
-		die("打开数据库的空间失败");
-	}
+    $coon=new mysqli("localhost","root","","projectdata");
 
 	$sql="INSERT INTO actionlist(actionName,actionRegin,date1,date2,date3,date4,type,resource,descript,perNum) values('$actionName','$actionRegin','$date1','$date2','$date3','$date4','11111','$resource','$desc','$perNum')";
-	$res=mysql_query($sql);
+	$res=$coon->query($sql);
 	if($res){
 	   echo("ok");
 	}else{
